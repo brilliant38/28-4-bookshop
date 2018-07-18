@@ -1,54 +1,54 @@
 package service;
 
-
 public class Member {
-	private int Member_No;
-	private String Member_ID;
-	private String Member_Pw;
-	private String Member_Name;
-	private String Member_Addr;
-	private String Member_Point;
-	private String Member_Date;
-	public int getMember_No() {
-		return Member_No;
+	private int memberNo;
+	private String memberId;
+	private String memberPw;
+	private String memberName;
+	private String memberAddr;
+	private int memberPoint;
+	private String memberDate;
+	
+	public int getMemberNo() {
+		return memberNo;
 	}
-	public void setMember_No(int member_No) {
-		Member_No = member_No;
+	public void setMemberNo(int memberNo) {
+		this.memberNo = memberNo;
 	}
-	public String getMember_ID() {
-		return Member_ID;
+	public String getMemberId() {
+		return memberId;
 	}
-	public void setMember_ID(String member_ID) {
-		Member_ID = member_ID;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
-	public String getMember_Pw() {
-		return Member_Pw;
+	public String getMemberPw() {
+		return memberPw;
 	}
-	public void setMember_Pw(String member_Pw) {
-		Member_Pw = member_Pw;
+	public void setMemberPw(String memberPw) {
+		this.memberPw = memberPw;
 	}
-	public String getMember_Name() {
-		return Member_Name;
+	public String getMemberName() {
+		return memberName;
 	}
-	public void setMember_Name(String member_Name) {
-		Member_Name = member_Name;
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
 	}
-	public String getMember_Addr() {
-		return Member_Addr;
+	public String getMemberAddr() {
+		return memberAddr;
 	}
-	public void setMember_Addr(String member_Addr) {
-		Member_Addr = member_Addr;
+	public void setMemberAddr(String memberAddr) {
+		this.memberAddr = memberAddr;
 	}
-	public String getMember_Point() {
-		return Member_Point;
+	public int getMemberPoint() {
+		return memberPoint;
 	}
-	public void setMember_Point(String member_Point) {
-		Member_Point = member_Point;
+	public void setMemberPoint(int memberPoint) {
+		this.memberPoint = memberPoint;
 	}
-	public String getMember_Date() {
-		return Member_Date;
+	public String getMemberDate() {
+		return memberDate;
 	}
-	public void setMember_Date(String member_Date) {
-		Member_Date = member_Date;
+	public void setMemberDate(String memberDate) {
+		this.memberDate = memberDate;
 	}
-}	
+}
