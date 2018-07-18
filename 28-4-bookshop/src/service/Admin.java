@@ -2,39 +2,43 @@ package service;
 
 
 public class Admin {
-	private int Admin_No;
-	private String Admin_ID;
-	private String Admin_Pw;
-	private String Admin_Name;
-	private String Admin_Date;
-	public int getAdmin_No() {
-		return Admin_No;
+	private int adminNo;
+	private String adminID;
+	private String adminPw;
+	private String adminName;
+	private String adminDate;
+	
+	public int getAdminNo() {
+		return adminNo;
 	}
-	public void setAdmin_No(int admin_No) {
-		Admin_No = admin_No;
+	public void setAdminNo(int adminNo) {
+		this.adminNo = adminNo;
 	}
-	public String getAdmin_ID() {
-		return Admin_ID;
+	public String getAdminID() {
+		return adminID;
 	}
-	public void setAdmin_ID(String admin_ID) {
-		Admin_ID = admin_ID;
+	public void setAdminID(String adminID) {
+		this.adminID = adminID;
 	}
-	public String getAdmin_Pw() {
-		return Admin_Pw;
+	public String getAdminPw() {
+		return adminPw;
 	}
-	public void setAdmin_Pw(String admin_Pw) {
-		Admin_Pw = admin_Pw;
+	public void setAdminPw(String adminPw) {
+		this.adminPw = adminPw;
 	}
-	public String getAdmin_Name() {
-		return Admin_Name;
+	public String getAdminName() {
+		return adminName;
 	}
-	public void setAdmin_Name(String admin_Name) {
-		Admin_Name = admin_Name;
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
 	}
-	public String getAdmin_Date() {
-		return Admin_Date;
+	public String getAdminDate() {
+		return adminDate;
 	}
-	public void setAdmin_Date(String admin_Date) {
-		Admin_Date = admin_Date;
+	public void setAdminDate(String adminDate) {
+		this.adminDate = adminDate;
 	}
+	
+	
+	
 }
