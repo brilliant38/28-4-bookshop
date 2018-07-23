@@ -19,6 +19,7 @@ public class Member {
 		return memberId;
 	}
 	public void setMemberId(String memberId) {
+		System.out.println(memberId + "아이디 확인");
 		this.memberId = memberId;
 	}
 	public String getMemberPw() {
