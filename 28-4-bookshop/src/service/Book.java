@@ -12,6 +12,7 @@ public class Book {
 	private int bookAmount;
 	private String bookOut;
 	private String bookDate;
+	private int lastPage;
 	
 	public int getBookNo() {
 		return bookNo;
@@ -72,6 +73,12 @@ public class Book {
 	}
 	public void setBookDate(String bookDate) {
 		this.bookDate = bookDate;
+	}
+	public int getLastPage() {
+		return lastPage;
+	}
+	public void setLastPage(int lastPage) {
+		this.lastPage = lastPage;
 	}
 }	
 	
