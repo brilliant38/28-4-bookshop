@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import="service.MemberService" %>
+<%@ page import="service.MemberInter" %>
 <%@ page import="service.Member" %>
 <!DOCTYPE html>
 <html>
@@ -15,6 +16,7 @@
 			String memberPw = request.getParameter("memberPw");
 			String memberName = request.getParameter("memberName");
 			String memberAddr = request.getParameter("memberAddr");
+			String[] inter = request.getParameterValues("inter");
 			int memberPoint = Integer.parseInt(request.getParameter("memberPoint"));
 			
 			Member member = new Member();
@@ -23,6 +25,11 @@
 			member.setMemberName(memberName);
 			member.setMemberAddr(memberAddr);
 			member.setMemberPoint(memberPoint);
+			
+			MemberInter memberinter = new MemberInter();
+			memberinter.setBookcodeNo(Integer.parseInt(inter[0]));
+			System.out.println(memberinter.getBookcodeNo()+ "ºÏÄÚµå³Ñ¹ö");
+			
 			
 			MemberService memberservice = new MemberService();
 			int checkId = memberservice.insertMember(member);
