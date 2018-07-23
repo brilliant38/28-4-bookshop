@@ -8,7 +8,7 @@ public class AdminService {
 	Connection connection = DriverUtil.driverDBcon();
 	
 	//특정 주문의 배송 상태 컬럼의 값을 변경 시키는 메소드 
-	public void updateOrdersState(String ordersstate ,Connection connection) {
+	public void updateOrdersState(String ordersstate) {
 		System.out.println(" 01 updateOrdersState <- 확인");
 		try {
 			//Autocommit 정지 메소드
