@@ -4,7 +4,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DriverUtil {
-	public Connection driverDBcon() {
+	public static Connection driverDBcon() {
 		Connection reconn = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
