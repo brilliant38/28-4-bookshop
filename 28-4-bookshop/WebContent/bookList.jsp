@@ -1,4 +1,4 @@
-<!-- 김호순,김준영 2018.7.18( -->
+<!-- 김호순,김준영 2018.7.18-->
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import="java.util.*" %>
 <%@ page import="service.*" %>
@@ -32,6 +32,7 @@
 				int currentPage = 1; //현재 페이지
 				if(request.getParameter("currentPage") != null) { //받아 오는 currentPage의 값이 null이 아닐 때 실행됩니다.
 					currentPage = Integer.parseInt(request.getParameter("currentPage")); //String currentPage를 형변환 하여 대입합니다.
+					System.out.println(request.getParameter("currentPage") + "current");
 				}
 				
 				String word = "";
@@ -44,7 +45,7 @@
 				Book book = new Book();
 				book.setSearchWord(word);
 				bookInfo.setBook(book);
-				ArrayList<BookInfo> bookList = publicService.bookList(bookInfo);
+				ArrayList<BookInfo> bookList = publicService.bookList(currentPage, 5, bookInfo);
 				
 			
 				for(int i=0; i<bookList.size(); i++) {
@@ -55,15 +56,15 @@
 					<td><%=bookInfo.getBook().getBookNo()%></td>
 					<td><%=bookInfo.getBook().getBookCodeNo()%></td>
 					<td><%=bookInfo.getBook().getPublisherNo()%></td>
-					<td><a href="<%= request.getContextPath() %>//bookDetail.jsp?no=<%=bookInfo.getBook().getBookNo()%>"><%=bookInfo.getBook().getBookName()%></a></td>
+					<td><a href="<%= request.getContextPath() %>/bookDetail.jsp?no=<%=bookInfo.getBook().getBookNo()%>"><%=bookInfo.getBook().getBookName()%></a></td>
 					<td><%=bookInfo.getBook().getBookAuthor()%></td>
 					<td><%=bookInfo.getBook().getBookPrice()%></td>
 					<td><%=bookInfo.getBook().getBookPoint()%></td>
 					<td><%=bookInfo.getBook().getBookAmount()%></td>
 					<td><%=bookInfo.getBook().getBookOut()%></td>
 					<td><%=bookInfo.getBook().getBookDate()%></td>
-					<td><a href="<%= request.getContextPath() %>//updateBookForm.jsp?bookNo=<%=bookInfo.getBook().getBookNo()%>">수정</a></td>
-					<td><a href="<%= request.getContextPath() %>//deleteBookAction.jsp?bookNo=<%=bookInfo.getBook().getBookNo()%>">삭제</a></td>
+					<td><a href="<%= request.getContextPath() %>/updateBookForm.jsp?bookNo=<%=bookInfo.getBook().getBookNo()%>">수정</a></td>
+					<td><a href="<%= request.getContextPath() %>/deleteBookAction.jsp?bookNo=<%=bookInfo.getBook().getBookNo()%>">삭제</a></td>
 				</tr>
 			<%
 				}
@@ -73,19 +74,20 @@
 			<%
 				if(currentPage > 1) {
 			%>
-					<a href="<%= request.getContextPath() %>//bookList.jsp?currentPage=<%=currentPage-1%>">◀이전</a>
+					<a href="<%= request.getContextPath() %>/bookList.jsp?currentPage=<%=currentPage-1%>">◀이전</a>
 			<%
 				}
 			
 				bookInfo = bookList.get(0);
+				System.out.println(bookList.get(0) + " bookInfo");
 				if(currentPage < bookInfo.getBook().getLastPage())	{
 			%>
-					<a href="<%= request.getContextPath() %>//bookList.jsp?currentPage=<%=currentPage+1%>">다음▶</a>
+					<a href="<%= request.getContextPath() %>/bookList.jsp?currentPage=<%=currentPage+1%>">다음▶</a>
 			<%
 				}
 			%>
 		</div>
-		<form action = "<%= request.getContextPath() %>//bookList.jsp" method="post">
+		<form action = "<%= request.getContextPath() %>/bookList.jsp" method="post">
 			<div>
 				이름 :
 				<input type="text" name="word">
