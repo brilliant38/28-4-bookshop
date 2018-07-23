@@ -13,6 +13,7 @@ public class Book {
 	private String bookOut;
 	private String bookDate;
 	private int lastPage;
+	private String searchWord;
 	
 	public int getBookNo() {
 		return bookNo;
@@ -79,6 +80,12 @@ public class Book {
 	}
 	public void setLastPage(int lastPage) {
 		this.lastPage = lastPage;
+	}
+	public String getSearchWord() {
+		return searchWord;
+	}
+	public void setSearchWord(String searchWord) {
+		this.searchWord = searchWord;
 	}
 }	
 	

@@ -1,4 +1,4 @@
-//김호순,김준영 2018.7.18
+//김호순,김준영 2018.7.18.
 package service;
 import java.util.*;
 import java.sql.*;
@@ -69,8 +69,7 @@ public class PublicDao {
 		ResultSet resultSet2 = null; 
 		
 		try {
-			DriverUtil driverUtil = new DriverUtil();
-			conn = driverUtil.driverDBcon();
+			conn = DriverUtil.driverDBcon();
 			
 			int startRow = (currentPage - 1) * pagePerRow; //첫 인덱스
 			int row = 0; //테이블의 전체 행의 수
