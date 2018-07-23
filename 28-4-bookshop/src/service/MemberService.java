@@ -3,8 +3,7 @@ package service;
 import java.sql.Connection;
 
 public class MemberService {
-	DriverUtil driverUtil = new DriverUtil();
-	Connection connection = driverUtil.driverDBcon();
+	Connection connection = DriverUtil.driverDBcon();
 	
 /*	public void deleteShoppingCart(int shoppingCartNo) {
 		
@@ -35,9 +34,10 @@ public class MemberService {
 	}*/								
 	public void insertMember(Member member) {
 		try {
+			connection.setAutoCommit(false);
 			MemberDao memberdao = new MemberDao();
 			memberdao.insertMember(member, connection);
-	
+			connection.commit();
 		} catch (Exception e) { 
 			e.printStackTrace();
 			try {
@@ -49,7 +49,26 @@ public class MemberService {
 			if (connection != null) try { connection.close(); } catch(Exception e) {}	
 		}
 	}
-/*	public void updateMember(Member member) {
+	public void updateMember(Member member) {
 		
-	}*/
+	}
+	public Member updateFormMember(int no) {
+		Member member = null;
+		try {
+			connection.setAutoCommit(false);
+			MemberDao memberdao = new MemberDao();
+			member = memberdao.updateFormMember(no, connection);
+			connection.commit();
+		} catch (Exception e) { 
+			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			if (connection != null) try { connection.close(); } catch(Exception e) {}	
+		}
+		return member;
+	}
 }
