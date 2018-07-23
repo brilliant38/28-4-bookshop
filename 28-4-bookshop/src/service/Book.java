@@ -7,9 +7,9 @@ public class Book {
 	private int publisherNo;
 	private String bookName;
 	private String bookAuthor;
-	private String bookPrice;
-	private String bookPoint;
-	private String bookAmount;
+	private int bookPrice;
+	private int bookPoint;
+	private int bookAmount;
 	private String bookOut;
 	private String bookDate;
 	
@@ -43,22 +43,22 @@ public class Book {
 	public void setBookAuthor(String bookAuthor) {
 		this.bookAuthor = bookAuthor;
 	}
-	public String getBookPrice() {
+	public int getBookPrice() {
 		return bookPrice;
 	}
-	public void setBookPrice(String bookPrice) {
+	public void setBookPrice(int bookPrice) {
 		this.bookPrice = bookPrice;
 	}
-	public String getBookPoint() {
+	public int getBookPoint() {
 		return bookPoint;
 	}
-	public void setBookPoint(String bookPoint) {
+	public void setBookPoint(int bookPoint) {
 		this.bookPoint = bookPoint;
 	}
-	public String getBookAmount() {
+	public int getBookAmount() {
 		return bookAmount;
 	}
-	public void setBookAmount(String bookAmount) {
+	public void setBookAmount(int bookAmount) {
 		this.bookAmount = bookAmount;
 	}
 	public String getBookOut() {
@@ -73,4 +73,5 @@ public class Book {
 	public void setBookDate(String bookDate) {
 		this.bookDate = bookDate;
 	}
-}
+}	
+	
