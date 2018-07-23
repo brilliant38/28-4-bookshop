@@ -8,12 +8,12 @@
 		<title>Insert title here</title>
 	</head>
 	<body>
-			<%
-				String sessionId = session.getAttribute("sessionId");
-				
-				MemberService memberservice = new MemberService();
-				Member member = memberservice.updateFormMember(sessionId);
-			%>
+		<%
+			String sessionId = (String)session.getAttribute("sessionId");
+			
+			MemberService memberservice = new MemberService();
+			Member member = memberservice.updateFormMember(sessionId);
+		%>
 		<form action="<%= request.getContextPath() %>/member/updateMemberAction.jsp" method="post">
 			아이디 : <input type="text" name="memberId" value=<%= member.getMemberId() %> readonly="readonly"><br>
 			비밀번호 : <input type="password" name="memberPw"><br>

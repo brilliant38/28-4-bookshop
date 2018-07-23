@@ -83,7 +83,7 @@ public class MemberDao {
 		}
 	}
 	//멤버 리스트
-	public Member memberList(String id, Connection connection){
+	public Member memberMypage(String id, Connection connection){
 		Member member = null;
 		String sql = "select * from member where member_id=?";
 		try {

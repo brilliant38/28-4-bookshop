@@ -21,11 +21,12 @@
 				<th>삭제</th>
 			</tr>
 		<%
-			String sessionId = session.getAttribute("sessionId");
+			String sessionId = (String)session.getAttribute("sessionId");
 		
 			MemberService memberservice = new MemberService();
-			Member member = memberservice.memberList(sessionId);
+			Member member = memberservice.memberMypage(sessionId);
 		%>
+		<button type="submit">변경</button>
 			<tr>
 				<td><%= member.getMemberId() %></td>
 				<td><%= member.getMemberPw() %></td>

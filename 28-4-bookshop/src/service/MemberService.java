@@ -30,12 +30,12 @@ public class MemberService {
 	public void insertReview(Review review) {				
 		
 	}*/			
-	public Member memberList(String id){
+	public Member memberMypage(String id){
 		Member member = null;
 		try {
 			connection.setAutoCommit(false);
 			MemberDao memberdao = new MemberDao();
-			member = memberdao.memberList(id, connection);
+			member = memberdao.memberMypage(id, connection);
 			connection.commit();
 		} catch (Exception e) { 
 			e.printStackTrace();
