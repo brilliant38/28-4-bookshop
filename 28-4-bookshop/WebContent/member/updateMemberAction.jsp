@@ -5,31 +5,22 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-		<title>Insert Member</title>
+		<title>Insert title here</title>
 	</head>
 	<body>
 		<%
-			request.setCharacterEncoding("euc-kr");
-		
 			String memberId = request.getParameter("memberId");
 			String memberPw = request.getParameter("memberPw");
 			String memberName = request.getParameter("memberName");
 			String memberAddr = request.getParameter("memberAddr");
-			int memberPoint = Integer.parseInt(request.getParameter("memberPoint"));
 			
 			Member member = new Member();
-			member.setMemberId(memberId);
 			member.setMemberPw(memberPw);
 			member.setMemberName(memberName);
 			member.setMemberAddr(memberAddr);
-			member.setMemberPoint(memberPoint);
 			
 			MemberService memberservice = new MemberService();
-			int checkId = memberservice.insertMember(member);
-			
-			if(checkId==0) {
-				response.sendRedirect(request.getContextPath()+"/member/insertMemberFail.jsp");
-			}
+			memberservice.updateMember(member);
 		%>
 	</body>
 </html>
