@@ -32,6 +32,31 @@ public class PublicDao {
 		}
 		return result;
 	}
+	// 로그인 관리자
+	public String loginAdmin(Connection Connection, Admin admin) {
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+		String result = null;
+		try {
+			pstmt = Connection.prepareStatement("select * from admin where admin_id=? and admin_pw=?");
+			pstmt.setString(1, admin.getAdminID()); 
+			pstmt.setString(2, admin.getAdminPw());
+			resultSet = pstmt.executeQuery(); 
+			
+			if(resultSet.next()) {
+				result = "관리자 로그인 성공";
+			}else {
+				result = "관리자 로그인 실패";
+			}
+
+		}catch (Exception e) {
+			// TODO: handle exception
+		}finally{
+			if (resultSet != null) try { resultSet.close(); } catch(SQLException e) {}
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
+		}
+		return result;
+	}
 	// 도서 리스트, 페이징, 검색
 	public ArrayList<BookInfo> bookList(int currentPage, int pagePerRow, String word){
 		
