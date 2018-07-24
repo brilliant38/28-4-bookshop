@@ -27,5 +27,24 @@ public class PublicService {
 		}
 		return bookList;
 	}
-	//	책 한권당 상세 정보리스트
+	//	주문 리스트 서비스
+	public ArrayList<Orders> ordersList(){
+		ArrayList<Orders> ordersList = null;
+		try {
+			connection.setAutoCommit(false);
+			PublicDao publicdao = new PublicDao();
+			ordersList = publicdao.ordersList();
+			connection.commit();
+		} catch (Exception e) { 
+			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			if (connection != null) try { connection.close(); } catch(Exception e) {}	
+		}
+		return ordersList;
+	}
 }

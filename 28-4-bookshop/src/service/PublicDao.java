@@ -1,4 +1,4 @@
-//김호순,김준영 2018.7.18.
+//김호순,김준영 2018.7.18
 package service;
 import java.util.*;
 import java.sql.*;
