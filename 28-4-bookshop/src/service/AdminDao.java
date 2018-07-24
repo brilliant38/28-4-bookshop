@@ -1,4 +1,4 @@
-/*구해성,이광재 2018.07.23*/
+/*구해성,이광재 2018.07.24*/
 package service;
 
 import java.sql.Connection;
@@ -9,10 +9,58 @@ import java.util.ArrayList;
 
 public class AdminDao {
 	
+	//Review 테이블에 1행의 책 리뷰를 입력하는 메소드.
+	public void insertReview(BookReview bookReview,Connection connection) {
+		PreparedStatement preparedStatement = null;
+		String insertReviewSql = "INSERT INTO bookreview (book_no, member_no, bookreview_content) VALUES (?,?,?)";
+		
+		try {
+			preparedStatement = connection.prepareStatement(insertReviewSql); 
+			preparedStatement.setInt(1, bookReview.getBookNo());
+			preparedStatement.setInt(2, bookReview.getMemberNo());
+			preparedStatement.setString(3, bookReview.getBookReviewContent());
+			
+			preparedStatement.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {	
+			try {
+				preparedStatement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+	
+	//Q&A 테이블에 1행의 답글을 입력하는  메소드.
+	public void insertQuestion(Qna qna, Connection connection) {
+		PreparedStatement preparedStatement = null;
+		String insertQnaSql = "INSERT INTO qna (member_no, qna_title, qna_content, qna_date) VALUES (?,?,?,NOW())";
+		
+		try {
+			preparedStatement = connection.prepareStatement(insertQnaSql); 
+			preparedStatement.setInt(1, qna.getMemberNo());
+			preparedStatement.setString(2, qna.getQnaTitle());
+			preparedStatement.setString(3, qna.getQnaContennt());
+			
+			preparedStatement.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {	
+			try {
+				preparedStatement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	//개인회원번호를 입력받아서 DB내의 Member테이블에서 해당하는 회원번호의 정보 1행을 삭제하는 메소드
 	
 	public void deleteMember(int memberNo, Connection connection) {
-		
 		PreparedStatement preparedStatement = null;
 		String deleteMemberSql = "DELETE FROM member WHERE member_no=?";
 		

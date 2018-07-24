@@ -30,6 +30,7 @@
 			}
 		%>
 		</table>
+		<br>
 		<div>
 			<a href = "<%=request.getContextPath() %>/admin/memberList.jsp" >회원목록화면</a>
 		</div>

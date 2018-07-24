@@ -1,4 +1,4 @@
-/*구해성,이광재 2018.07.23*/
+/*구해성,이광재 2018.07.24*/
 package service;
 
 import java.sql.Connection;
@@ -8,10 +8,74 @@ import java.util.ArrayList;
 public class AdminService {
 	Connection connection = DriverUtil.driverDBcon();
 	
+	//insertReview 메소드를 bookReview 객체 주소값을 입력하여 호출
+	public void insertReviewService(BookReview bookReview) {
+		System.out.println(" 01 insertReview <- 확인");
+		
+		try {
+			//Autocommit 정지 메소드
+			connection.setAutoCommit(false);
+			
+			AdminDao adminDao = new AdminDao();
+			adminDao.insertReview(bookReview, connection);
+			
+			//수동 commit 처리 메소드
+			connection.commit();
+			
+		} catch (SQLException e) {
+			try {
+				//예외발생시 rollback 메소드
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	//QNA 테이블에 1행을 추가하는 메소드를 호출하는 서비스 메소드
+	
+	public void insertQnaService(Qna qna) {
+		System.out.println(" 01 insertQnaService <- 확인");
+		
+		try {
+			//Autocommit 정지 메소드
+			connection.setAutoCommit(false);
+			
+			AdminDao adminDao = new AdminDao();
+			adminDao.insertQuestion(qna, connection);
+			
+			
+			//수동 commit 처리 메소드
+			connection.commit();
+			
+		} catch (SQLException e) {
+			try {
+				//예외발생시 rollback 메소드
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	//개인회원의 회원번호를 받아서 DAO의 deleteMember메소드로 입력하고 호출하는 메소드
 	
 	public void deleteMemberService(int memberNo) {
-		System.out.println(" 01 deleteMember <- 확인");
+		System.out.println(" 01 deleteMemberService <- 확인");
 		
 		try {
 			//Autocommit 정지 메소드
