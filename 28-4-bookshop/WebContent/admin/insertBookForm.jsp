@@ -96,5 +96,9 @@
 				</tr>
 			</table>
 		</form>
+		<br>
+		<div>
+			<a href = "<%=request.getContextPath() %>/admin/adminIndex.jsp" >메인화면</a>
+		</div>
 	</body>
 </html>

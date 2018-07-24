@@ -5,8 +5,123 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class AdminDao {
+	
+	//개인회원번호를 입력받아서 DB내의 Member테이블에서 해당하는 회원번호의 정보 1행을 삭제하는 메소드
+	
+	public void deleteMember(int memberNo, Connection connection) {
+		
+		PreparedStatement preparedStatement = null;
+		String deleteMemberSql = "DELETE FROM member WHERE member_no=?";
+		
+		try {
+			preparedStatement = connection.prepareStatement(deleteMemberSql); 
+			preparedStatement.setInt(1, memberNo);
+			
+			preparedStatement.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {	
+			try {
+				preparedStatement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	//개인회원이 관심있어하는 장르를 조회해서 장르 목록을 리턴 해주는 메소드
+	public ArrayList<BookCode> selectMemberInter (int memberNo, Connection connection) {
+		System.out.println(" 02 selectMemberInter <- 확인");
+		ArrayList<BookCode> arraylist = new ArrayList<BookCode>();
+		
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		String selectMemberInterSql = "SELECT bookcode_name FROM memberinter m INNER JOIN bookcode b ON m.bookcode_no=b.bookcode_no WHERE m.member_no=? ORDER BY bookcode_name DESC";
+		
+
+		try {
+			preparedStatement = connection.prepareStatement(selectMemberInterSql); 
+			preparedStatement.setInt(1, memberNo);
+			
+			resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next()) {
+				BookCode bookCode = new BookCode();
+				
+				bookCode.setBookCodeName(resultSet.getString(1));
+				
+				arraylist.add(bookCode);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {	
+			try {
+				resultSet.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			try {
+				preparedStatement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return arraylist;
+	}
+	
+	//모든 회원의 정보를 저장하여 리스트로 리턴 시켜주는 메소드
+	public ArrayList<Member> selectMemberList(Connection connection) {
+		System.out.println(" 02 selectMemberList <- 확인");
+		ArrayList<Member> arraylist = new ArrayList<Member>();
+		
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		String selectMemberListSql = "SELECT member_no, member_id, member_name, member_addr, member_point, member_date FROM member";
+		
+		try {
+			preparedStatement = connection.prepareStatement(selectMemberListSql); 
+			
+			resultSet = preparedStatement.executeQuery();
+			
+			while(resultSet.next()) {
+				Member member = new Member();
+				
+				member.setMemberNo(resultSet.getInt(1));
+				member.setMemberId(resultSet.getString(2));
+				member.setMemberName(resultSet.getString(3));
+				member.setMemberAddr(resultSet.getString(4));
+				member.setMemberPoint(resultSet.getInt(5));
+				member.setMemberDate(resultSet.getString(6));
+				
+				arraylist.add(member);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {	
+			try {
+				resultSet.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			try {
+				preparedStatement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return arraylist;
+	}
 	
 	// 1명의 회원 정보를 삭제시키는 메소드
 	public void deleteMemberAction(String id, Connection connection) {
