@@ -1,4 +1,4 @@
-<!-- 김호순,김준영 2018.7.18.-->
+<!-- 김호순,김준영 2018.7.18-->
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import="java.util.*" %>
 <%@ page import="service.*" %>
@@ -23,6 +23,8 @@
 				<td>절판 여부</td>
 				<td>도서 등록 일자</td>
 				<td>장바구니 담기</td>
+				<td>수정</td>
+				<td>삭제</td>
 			</tr>
 			<%
 				request.setCharacterEncoding("euc-kr");
@@ -61,6 +63,8 @@
 					<td><%=bookInfo.getBook().getBookOut()%></td>
 					<td><%=bookInfo.getBook().getBookDate()%></td>
 					<td><a href="<%= request.getContextPath() %>/admin/updateBookForm.jsp?bookNo=<%=bookInfo.getBook().getBookNo()%>">장바구니 담기</a></td>
+					<td><a href="<%= request.getContextPath() %>/admin/updateBookForm.jsp?bookNo=<%=bookInfo.getBook().getBookNo()%>">수정</a></td>
+					<td><a href="<%= request.getContextPath() %>/admin/deleteBookAction.jsp?bookNo=<%=bookInfo.getBook().getBookNo()%>">삭제</a></td>
 				</tr>
 			<%
 				}
