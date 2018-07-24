@@ -28,8 +28,8 @@
 			
 			MemberService memberservice = new MemberService();
 			memberservice.insertShoppingCart(shoppingCart, sessionId);
+			
+			response.sendRedirect(request.getContextPath()+"/shoppingCartList.jsp");
 		%>
-
-		response.sendRedirect(request.getContextPath()+"/shoppingCartList.jsp");
 	</body>
 </html>

@@ -53,7 +53,7 @@
 				<td><%= shoppingcartPrice %></td>
 				<td><%= shoppingcartDate %></td>
 				<td>
-					<a href="<%= request.getContextPath() %>/member/deleteMemberAction.jsp?shoppingcartNo=<%= shoppingcartNo %>">삭제</a>
+					<a href="<%= request.getContextPath() %>/member/deleteShoppingCartAction.jsp?shoppingcartNo=<%= shoppingcartNo %>">삭제</a>
 				</td>
 			</tr>
 		</table>

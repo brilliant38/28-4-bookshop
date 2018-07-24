@@ -1,4 +1,4 @@
-<!-- 2018-07-23 ÀÌÀÀºó -->
+<!-- 2018-07-24 ÀÌÀÀºó -->
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import="service.MemberService" %>
 <!DOCTYPE html>
@@ -9,10 +9,10 @@
 	</head>
 	<body>
 		<%
-			String sessionId = (String)session.getAttribute("sessionId");
+			int shoppingcartNo = Integer.parseInt(request.getParameter("shoppingcartNo"));
 			
 			MemberService memberservice = new MemberService();
-			memberservice.deleteMember(sessionId);
+			memberservice.deleteShoppingCart(shoppingcartNo);
 		%>
 	</body>
 </html>

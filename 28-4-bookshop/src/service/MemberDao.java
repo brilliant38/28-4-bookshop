@@ -200,15 +200,27 @@ public class MemberDao {
 			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
 		}
 	}
+	//쇼핑카트 목록 삭제
+	public void deleteShoppingCart(int shoppingcartNo, Connection connection) {
+		String sql = "delete * from shoppingcart where shoppingcart_no=?";
+		try {
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setInt(1, shoppingcartNo);
+
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
+		}
+	}
 	
 	/*public Member selectMypage(int no) {
 		
 	}
 				
 
-	public void deleteShoppingCart(int shoppingCartNo) {
-		
-	}
+	
 	public void updateShoppingCart(int shoppingCartNo) {
 		
 	}

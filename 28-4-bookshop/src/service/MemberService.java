@@ -7,9 +7,7 @@ import java.util.ArrayList;
 public class MemberService {
 	Connection connection = DriverUtil.driverDBcon();
 	
-/*	public void deleteShoppingCart(int shoppingCartNo) {
-		
-	}
+/*	
 	public void updateShoppingCart(int shoppingCartNo) {
 		
 	}								
@@ -162,6 +160,24 @@ public class MemberService {
 			connection.setAutoCommit(false);
 			MemberDao memberdao = new MemberDao();
 			memberdao.updateShoppingCartAmount(shoppingcartNo, shoppingcartAmount, connection);
+			connection.commit();
+		} catch (Exception e) { 
+			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			if (connection != null) try { connection.close(); } catch(Exception e) {}	
+		}
+	}
+	//쇼핑카트 목록 삭제
+	public void deleteShoppingCart(int shoppingcartNo) {
+		try {
+			connection.setAutoCommit(false);
+			MemberDao memberdao = new MemberDao();
+			memberdao.deleteShoppingCart(shoppingcartNo, connection);
 			connection.commit();
 		} catch (Exception e) { 
 			e.printStackTrace();
