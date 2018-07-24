@@ -111,7 +111,7 @@ public class AdminService {
 			connection.setAutoCommit(false);	
 			
 			AdminDao adminDao = new AdminDao();
-			adminDao.updateFormBook(bookNo, connection);
+			bookInfo = adminDao.updateFormBook(bookNo, connection);
 			
 			//수동 commit 처리 메소드
 			connection.commit();

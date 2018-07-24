@@ -7,10 +7,12 @@
 		<title>Update Book Action</title>
 	</head>
 	<body>
-		<%
+		<%	
+			request.setCharacterEncoding("euc-kr");
 			AdminService adminService = new AdminService();
 			BookInfo bookInfo = new BookInfo();
 			Book book = new Book();
+			book.setBookNo(Integer.parseInt(request.getParameter("bookNo")));
 			book.setBookCodeNo(Integer.parseInt(request.getParameter("bookCode")));
 			book.setPublisherNo(Integer.parseInt(request.getParameter("publisher")));
 			book.setBookName(request.getParameter("bookName"));
@@ -19,10 +21,10 @@
 			book.setBookPoint(Integer.parseInt(request.getParameter("bookPoint")));
 			book.setBookAmount(Integer.parseInt(request.getParameter("bookAmount")));
 			book.setBookOut(request.getParameter("bookOut"));
-			
+			bookInfo.setBook(book);
 			adminService.updateBook(bookInfo);
 			
-			response.sendRedirect(request.getContextPath() + "/bookList.jsp");
+			response.sendRedirect(request.getContextPath() + "/bookAdminList.jsp");
 		%>
 	</body>
 </html>

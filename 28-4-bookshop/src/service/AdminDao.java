@@ -144,7 +144,7 @@ public class AdminDao {
 		System.out.println(" 02 updateBook <- 확인");
 		
 		PreparedStatement preparedStatement = null;
-		String updateBookSql = "UPDATE";
+		String updateBookSql = "UPDATE book SET bookcode_no=?,publisher_no=?,book_name=?,book_author=?,book_price=?,book_point=?,book_amount=?,book_out=? WHERE book_no  = ?";
 		
 		try {
 			preparedStatement = connection.prepareStatement(updateBookSql); 
@@ -176,7 +176,7 @@ public class AdminDao {
 		System.out.println(" 02 deleteOrdersState <- 확인");
 		
 		PreparedStatement preparedStatement = null;
-		String deleteBookSql = "DELETE";
+		String deleteBookSql = "delete from book where book_no= ?";
 		
 		try {
 			preparedStatement = connection.prepareStatement(deleteBookSql); 

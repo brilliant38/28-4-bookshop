@@ -16,9 +16,14 @@
 		<form action="<%=request.getContextPath() %>/admin/updateBookAction.jsp" method="post">
 			<table border="1">
 				<tr>
+					<th>책 번호</th>
+					<td>
+						<input type="text" name="bookNo" value="<%=Integer.parseInt(request.getParameter("bookNo"))%>">
+					</td>
+				<tr>
+				<tr>
 					<th>도서코드</th>
 					<td><select name="bookCode">
-							<option> ▼ 종류</option>
 							<option value="<%=bookInfo.getBook().getBookCodeNo() %>" >도서코드 변경불가</option>
 						</select>
 					</td>
@@ -26,7 +31,6 @@
 				<tr>
 					<th>출판사</th>
 					<td><select name="publisher">
-							<option> ▼ 출판사명</option>
 							<option value="<%=bookInfo.getBook().getPublisherNo() %>">출판사명 변경불가</option>
 						</select>
 					</td>
