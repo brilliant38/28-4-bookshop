@@ -22,7 +22,7 @@
 			}else if(result.equals("로그인 실패")){
 				System.out.println("로그인 실패");
 			}
-			response.sendRedirect(request.getContextPath()+"/member/index.jsp");
+			response.sendRedirect(request.getContextPath()+"/member/bookList.jsp");
 		%>
 	</body>
 </html>

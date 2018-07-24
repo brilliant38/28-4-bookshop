@@ -14,8 +14,8 @@
 		
 			MemberService memberservice = new MemberService();
 			memberservice.updateShoppingCartAmount(shoppingcartNo, shoppingcartAmount);
+			
+			response.sendRedirect(request.getContextPath()+"/member/shoppingCartList.jsp");
 		%>
-		
-		response.sendRedirect(request.getContextPath()+"/shoppingCart.jsp");
 	</body>
 </html>
