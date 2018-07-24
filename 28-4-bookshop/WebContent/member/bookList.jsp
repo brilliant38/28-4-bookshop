@@ -10,7 +10,7 @@
 		<title>Insert title here</title>
 	</head>
 	<body>
-		<h1>도서 리스트</h1>
+		<h1><a href = "<%= request.getContextPath() %>/bookList.jsp">도서 리스트</a></h1>
 		<table border="1">
 			<tr>
 				<td>도서 번호</td>
@@ -33,6 +33,11 @@
 					System.out.println(request.getParameter("currentPage") + "current");
 				}
 				
+				String sel = "";
+				if(request.getParameter("sel") != null) { //받아 오는 sel의 값이 null이 아닐 때 실행됩니다.
+					sel = request.getParameter("sel"); //String sle을 형변환 하여 대입합니다.
+				}
+				
 				String word = "";
 				if(request.getParameter("word") != null) { //받아 오는 word의 값이 null이 아닐 때 실행됩니다.
 					word = request.getParameter("word"); //String word를 형변환 하여 대입합니다.
@@ -43,7 +48,7 @@
 				Book book = new Book();
 				book.setSearchWord(word);
 				bookInfo.setBook(book);
-				ArrayList<BookInfo> bookList = publicService.bookList(currentPage, 5, bookInfo);
+				ArrayList<BookInfo> bookList = publicService.bookList(currentPage, 5, bookInfo, sel);
 				
 			
 				for(int i=0; i<bookList.size(); i++) {

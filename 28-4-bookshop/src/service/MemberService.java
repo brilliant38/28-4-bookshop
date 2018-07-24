@@ -159,11 +159,11 @@ public class MemberService {
 		return list;
 	}
 	//쇼핑카트 수량 수정
-	public void updateShoppingCartAmount(int shoppingcartNo, int shoppingcartAmount) {				
+	public void updateShoppingCartAmount(int shoppingcartNo, int shoppingcartAmount, int bookNo) {				
 		try {
 			connection.setAutoCommit(false);
 			MemberDao memberdao = new MemberDao();
-			memberdao.updateShoppingCartAmount(shoppingcartNo, shoppingcartAmount, connection);
+			memberdao.updateShoppingCartAmount(shoppingcartNo, shoppingcartAmount, bookNo, connection);
 			connection.commit();
 		} catch (Exception e) { 
 			e.printStackTrace();

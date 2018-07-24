@@ -11,9 +11,10 @@
 		<%
 			int shoppingcartNo = Integer.parseInt(request.getParameter("shoppingcartNo"));
 			int shoppingcartAmount = Integer.parseInt(request.getParameter("shoppingcartAmount"));
+			int bookNo = Integer.parseInt(request.getParameter("bookNo"));
 		
 			MemberService memberservice = new MemberService();
-			memberservice.updateShoppingCartAmount(shoppingcartNo, shoppingcartAmount);
+			memberservice.updateShoppingCartAmount(shoppingcartNo, shoppingcartAmount, bookNo);
 			
 			response.sendRedirect(request.getContextPath()+"/member/shoppingCartList.jsp");
 		%>

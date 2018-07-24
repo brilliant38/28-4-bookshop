@@ -113,7 +113,7 @@ public class MemberDao {
 	}
 	//회원탈퇴
 	public void deleteMember(String sessionId, Connection connection) {
-		String sql = "delete * from member where member_id=?";
+		String sql = "delete from member where member_id=?";
 		try {
 			pstmt = connection.prepareStatement(sql);
 			pstmt.setString(1, sessionId);
@@ -156,6 +156,7 @@ public class MemberDao {
 		} finally{
 			if (rs != null) try { rs.close(); } catch(SQLException e) {}
 			if (rs2 != null) try { rs2.close(); } catch(SQLException e) {}
+			if (pstmt3 != null) try { pstmt3.close(); } catch(SQLException e) {}
 			if (pstmt2 != null) try { pstmt2.close(); } catch(SQLException e) {}
 			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
 		}
@@ -194,29 +195,40 @@ public class MemberDao {
 			e.printStackTrace();
 		} finally{
 			if (rs != null) try { rs.close(); } catch(SQLException e) {}
+			if (rs2 != null) try { rs2.close(); } catch(SQLException e) {}
+			if (pstmt2 != null) try { pstmt2.close(); } catch(SQLException e) {}
 			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
 		}
 		return list;
 	}
-	
 	//쇼핑카드 수량 수정
-	public void updateShoppingCartAmount(int shoppingcartNo, int shoppingcartAmount, Connection connection) {
-		String sql = "update shoppingcart set shoppingcart_amount=? where shoppingcart_no=?";
+	public void updateShoppingCartAmount(int shoppingcartNo, int shoppingcartAmount, int bookNo, Connection connection) {
+		String sql = "update shoppingcart set shoppingcart_amount=?, shoppingcart_price=? where shoppingcart_no=?";
+		String sql2 = "select * from book where book_no=?";
 		try {
-			pstmt = connection.prepareStatement(sql);
-			pstmt.setInt(1, shoppingcartAmount);
-			pstmt.setInt(2, shoppingcartNo);
-
-			pstmt.executeUpdate();
+			pstmt =  connection.prepareStatement(sql2);
+			pstmt.setInt(1, bookNo);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				pstmt = connection.prepareStatement(sql);
+				pstmt.setInt(1, shoppingcartAmount);
+				pstmt.setInt(2, shoppingcartAmount * rs.getInt("book_price"));
+				pstmt.setInt(3, shoppingcartNo);
+	
+				pstmt.executeUpdate();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally{
+			if (rs != null) try { rs.close(); } catch(SQLException e) {}
 			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
 		}
 	}
+	
 	//쇼핑카트 목록 삭제
 	public void deleteShoppingCart(int shoppingcartNo, Connection connection) {
-		String sql = "delete * from shoppingcart where shoppingcart_no=?";
+		String sql = "delete from shoppingcart where shoppingcart_no=?";
 		try {
 			pstmt = connection.prepareStatement(sql);
 			pstmt.setInt(1, shoppingcartNo);

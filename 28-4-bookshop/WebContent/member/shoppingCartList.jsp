@@ -47,11 +47,13 @@
 						<td><%= memberNo %></td>
 						<td>
 							<div>
-								<input type="text" name="shoppingcartAmount" value="<%= shoppingcartAmount %>">
-								<a href="<%= request.getContextPath() %>/member/updateShoppingCartAmount.jsp?shoppingcartAmount=<%= shoppingcartAmount %>&shoppingcartNo=<%= shoppingcartNo %>"><button type="submit">변경</button></a>
+								<form action="<%= request.getContextPath() %>/member/updateShoppingCartAmount.jsp?shoppingcartNo=<%= shoppingcartNo %>&bookNo=<%= bookNo%>" method="post">
+									<input type="text" name="shoppingcartAmount" value="<%= shoppingcartAmount %>" size="1">
+									<button type="submit">변경</button>
+								</form>
 							</div>
 						</td>
-						<td><%= shoppingcartPrice %></td>
+						<td><%= shoppingcartPrice%>원</td>
 						<td><%= shoppingcartDate %></td>
 						<td>
 							<a href="<%= request.getContextPath() %>/member/deleteShoppingCartAction.jsp?shoppingcartNo=<%= shoppingcartNo %>">삭제</a>

@@ -13,6 +13,8 @@
 			
 			MemberService memberservice = new MemberService();
 			memberservice.deleteShoppingCart(shoppingcartNo);
+			
+			response.sendRedirect(request.getContextPath()+"/member/shoppingCartList.jsp");
 		%>
 	</body>
 </html>
