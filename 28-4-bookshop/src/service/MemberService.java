@@ -117,11 +117,12 @@ public class MemberService {
 		}
 	}
 	//쇼핑카트 담기
-	public void insertShoppingCart(ShoppingCart shoppingCart, String sessionId) {				
+	public int insertShoppingCart(int bookNo, String sessionId) {
+		int login = 0;
 		try {
 			connection.setAutoCommit(false);
 			MemberDao memberdao = new MemberDao();
-			memberdao.insertShoppingCart(shoppingCart, sessionId, connection);
+			login = memberdao.insertShoppingCart(bookNo, sessionId, connection);
 			connection.commit();
 		} catch (Exception e) { 
 			e.printStackTrace();
@@ -133,14 +134,15 @@ public class MemberService {
 		} finally {
 			if (connection != null) try { connection.close(); } catch(Exception e) {}	
 		}
+		return login;
 	}
 	//쇼핑카트 리스트
-	public ShoppingCart selectShoppingCart(String sessionId) {
-		ShoppingCart shoppingCart = null;
+	public ArrayList<ShoppingCart> selectShoppingCart(String sessionId) {
+		ArrayList<ShoppingCart> list = new ArrayList<ShoppingCart>();
 		try {
 			connection.setAutoCommit(false);
 			MemberDao memberdao = new MemberDao();
-			shoppingCart = memberdao.selectShoppingCart(sessionId, connection);
+			list = memberdao.selectShoppingCart(sessionId, connection);
 			connection.commit();
 		} catch (Exception e) { 
 			e.printStackTrace();
@@ -152,7 +154,7 @@ public class MemberService {
 		} finally {
 			if (connection != null) try { connection.close(); } catch(Exception e) {}	
 		}
-		return shoppingCart;
+		return list;
 	}
 	//쇼핑카트 수량 수정
 	public void updateShoppingCartAmount(int shoppingcartNo, int shoppingcartAmount) {				

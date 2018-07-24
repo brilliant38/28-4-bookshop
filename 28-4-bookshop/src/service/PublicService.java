@@ -7,13 +7,13 @@ public class PublicService {
 	Connection connection = DriverUtil.driverDBcon();
 	
 	// 도서 리스트 서비스
-	public ArrayList<BookInfo> bookList(int currentPage, int pagePerRow, BookInfo bookinfo){
+	public ArrayList<BookInfo> bookList(int currentPage, int pagePerRow, BookInfo bookinfo, String sel){
 		ArrayList<BookInfo> bookList = null;
 		
 		try {
 			connection.setAutoCommit(false);
 			PublicDao publicdao = new PublicDao();
-			bookList = publicdao.bookList(currentPage, pagePerRow, bookinfo.getBook().getSearchWord());
+			bookList = publicdao.bookList(currentPage, pagePerRow, bookinfo.getBook().getSearchWord(), sel);
 			connection.commit();
 		} catch (Exception e) { 
 			e.printStackTrace();
@@ -27,4 +27,5 @@ public class PublicService {
 		}
 		return bookList;
 	}
+	//	책 한권당 상세 정보리스트
 }

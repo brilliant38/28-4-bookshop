@@ -9,7 +9,10 @@ import java.sql.ResultSet;
 
 public class MemberDao {
 	PreparedStatement pstmt = null;
+	PreparedStatement pstmt2 = null;
+	PreparedStatement pstmt3 = null;
 	ResultSet rs = null;
+	ResultSet rs2 = null;
 	//사용자 입력 메서드
 	public int insertMember(Member member, Connection connection) {
 		int checkId = 0;
@@ -123,32 +126,44 @@ public class MemberDao {
 		}
 	}
 	//쇼핑카드 담기
-	public void insertShoppingCart(ShoppingCart shoppingCart, String sessionId, Connection connection) {
-		String sql1 = "insert into from shoppingcart(book_no, member_no, shoppingcart_amount, shoppingcart_price, shoppingcart_date) value(?, ?, ?, ?, now())";
+	public int insertShoppingCart(int bookNo, String sessionId, Connection connection) {
+		String sql1 = "insert into shoppingcart(book_no, member_no, shoppingcart_amount, shoppingcart_price, shoppingcart_date) values(?, ?, ?, ?, now())";
 		String sql2 = "select * from member where member_id=?";
+		String sql3 = "select * from book where book_no=?";
+		int login = 0;
 		try {
 			pstmt = connection.prepareStatement(sql2);
 			pstmt.setString(1, sessionId);
 			
-			pstmt.executeQuery();
-			rs.next();
-			
-			pstmt = connection.prepareStatement(sql1);
-			pstmt.setInt(1, shoppingCart.getBookNo());
-			pstmt.setInt(2, rs.getInt("member_no"));
-			pstmt.setInt(3, shoppingCart.getShoppingcartAmount());
-			pstmt.setInt(4, shoppingCart.getShoppingcartPrice());
-			
-			pstmt.executeUpdate();
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				pstmt2 = connection.prepareStatement(sql3);
+				pstmt2.setInt(1, bookNo);
+				
+				rs2 = pstmt2.executeQuery();
+				
+				if(rs2.next()) {
+					pstmt3 = connection.prepareStatement(sql1);
+					pstmt3.setInt(1, rs2.getInt("book_no"));
+					pstmt3.setInt(2, rs.getInt("member_no"));
+					pstmt3.setInt(3, 1);
+					pstmt3.setInt(4, rs2.getInt("book_price"));
+					login = pstmt3.executeUpdate();
+				}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally{
 			if (rs != null) try { rs.close(); } catch(SQLException e) {}
+			if (rs2 != null) try { rs2.close(); } catch(SQLException e) {}
+			if (pstmt2 != null) try { pstmt2.close(); } catch(SQLException e) {}
 			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
 		}
+		return login;
 	}
 	//쇼핑카트 리스트
-	public ShoppingCart selectShoppingCart(String sessionId, Connection connection) {
+	public ArrayList<ShoppingCart> selectShoppingCart(String sessionId, Connection connection) {
+		ArrayList<ShoppingCart> list = new ArrayList<ShoppingCart>();
 		ShoppingCart shoppingCart = null;
 		String sql1 = "select * from member where member_id=?";
 		String sql2 = "select * from shoppingcart where member_no=?";
@@ -159,30 +174,29 @@ public class MemberDao {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				pstmt = connection.prepareStatement(sql2);
-				pstmt.setInt(1, rs.getInt("member_no"));
+				pstmt2 = connection.prepareStatement(sql2);
+				pstmt2.setInt(1, rs.getInt("member_no"));
 				
-				rs = pstmt.executeQuery();
+				rs2 = pstmt2.executeQuery();
 				
-				if(rs.next()) {
+				while(rs2.next()) {
 					shoppingCart = new ShoppingCart();
-					shoppingCart.setShoppingcartNo(rs.getInt("shoppingcart_no"));
-					shoppingCart.setBookNo(rs.getInt("book_no"));
-					shoppingCart.setMemberNo(rs.getInt("member_no"));
-					shoppingCart.setShoppingcartAmount(rs.getInt("shoppingcart_amount"));
-					shoppingCart.setShoppingcartPrice(rs.getInt("shoppingcart_price"));
-					shoppingCart.setShoppingcartDate(rs.getString("shoppingcart_date"));
+					shoppingCart.setShoppingcartNo(rs2.getInt("shoppingcart_no"));
+					shoppingCart.setBookNo(rs2.getInt("book_no"));
+					shoppingCart.setMemberNo(rs2.getInt("member_no"));
+					shoppingCart.setShoppingcartAmount(rs2.getInt("shoppingcart_amount"));
+					shoppingCart.setShoppingcartPrice(rs2.getInt("shoppingcart_price"));
+					shoppingCart.setShoppingcartDate(rs2.getString("shoppingcart_date"));
+					list.add(shoppingCart);
 				}
 			}
-			
-			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally{
 			if (rs != null) try { rs.close(); } catch(SQLException e) {}
 			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
 		}
-		return shoppingCart;
+		return list;
 	}
 	
 	//쇼핑카드 수량 수정

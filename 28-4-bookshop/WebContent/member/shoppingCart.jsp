@@ -1,9 +1,6 @@
 <!-- 2018-07-23 ÀÌÀÀºó -->
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import="service.MemberService" %>
-<%@ page import="service.Book" %>
-<%@ page import="service.Member" %>
-<%@ page import="service.ShoppingCart" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -16,20 +13,16 @@
 			
 			String sessionId = (String)session.getAttribute("sessionId");
 		
-			Book book = request.getParameter("Book");
-			int bookNo = book.getBookNo();
-			int bookAmount = book.getBookAmount();
-			int bookPrice = book.getBookAmount();
-			
-			ShoppingCart shoppingCart = new ShoppingCart();
-			shoppingCart.setBookNo(bookNo);
-			shoppingCart.setShoppingcartAmount(bookAmount);
-			shoppingCart.setShoppingcartPrice(bookPrice);
+			int bookNo = Integer.parseInt(request.getParameter("bookNo"));
 			
 			MemberService memberservice = new MemberService();
-			memberservice.insertShoppingCart(shoppingCart, sessionId);
+			int login = memberservice.insertShoppingCart(bookNo, sessionId);
 			
-			response.sendRedirect(request.getContextPath()+"/shoppingCartList.jsp");
+			if(login == 1) {
+				response.sendRedirect(request.getContextPath()+"/member/shoppingCartList.jsp");
+			} else {
+				response.sendRedirect(request.getContextPath()+"/member/loginForm.jsp");
+			}
 		%>
 	</body>
 </html>
