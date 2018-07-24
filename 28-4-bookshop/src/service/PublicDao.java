@@ -57,8 +57,8 @@ public class PublicDao {
 		}
 		return result;
 	}
-	// 도서 리스트, 페이징, 검색
-	public ArrayList<BookInfo> bookList(int currentPage, int pagePerRow, String word){
+	// 도서 리스트, 페이징, 검색()
+	public ArrayList<BookInfo> bookList(int currentPage, int pagePerRow, String word, String sel){
 		
 		ArrayList<BookInfo> bookList = new ArrayList<BookInfo>();
 		
@@ -75,20 +75,24 @@ public class PublicDao {
 			int row = 0; //테이블의 전체 행의 수
 			int lastPage = 0; //마지막 페이지
 			
-			if(word.equals("")) {
+			if(sel==null & word==null) {
 				pstmt2 = conn.prepareStatement("select count(book_no) from book");
 				pstmt = conn.prepareStatement("select * from book order by book_no desc limit ?, ?");
 				pstmt.setInt(1, startRow);
 				pstmt.setInt(2, pagePerRow);
-			} else {
-				pstmt2 = conn.prepareStatement("select count(book_no) from book where book_name like ?");
+			}else if(sel!=null & word.equals("")) {
+				pstmt2 = conn.prepareStatement("select count(book_no) from book");
+				pstmt = conn.prepareStatement("select * from book order by book_no desc limit ?, ?");
+				pstmt.setInt(1, startRow);
+				pstmt.setInt(2, pagePerRow);
+			}else if(sel!=null & word!=null) {
+				pstmt2 = conn.prepareStatement("select count(book_no) from book where "+ sel +" like ?");
 				pstmt2.setString(1, "%"+word+"%");
-				pstmt = conn.prepareStatement("select * from book where book_name like ? order by book_no desc limit ?, ?");
+				pstmt = conn.prepareStatement("select * from book where "+ sel +"  like ? order by book_no desc limit ?, ?");
 				pstmt.setString(1, "%"+word+"%");
 				pstmt.setInt(2, startRow);
 				pstmt.setInt(3, pagePerRow);
 			}
-			
 			resultSet2 = pstmt2.executeQuery();
 			
 			if(resultSet2.next()) {
@@ -141,12 +145,6 @@ public class PublicDao {
 		}
 		return bookList;
 	}
-	// 도서 상세 리스트
-	public ArrayList<BookInfo> bookDetail(int bookNo){
-		
-		return null;
-	}
-	
 	// 도서 구매 이력 리스트
 
 	// QnA 리스트
