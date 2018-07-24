@@ -2,6 +2,7 @@
 <%@ page import="service.MemberService" %>
 <%@ page import="service.MemberInter" %>
 <%@ page import="service.Member" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -16,7 +17,7 @@
 			String memberPw = request.getParameter("memberPw");
 			String memberName = request.getParameter("memberName");
 			String memberAddr = request.getParameter("memberAddr");
-			String[] inter = request.getParameterValues("inter");
+			String[] bookCodeInter = request.getParameterValues("inter");
 			int memberPoint = Integer.parseInt(request.getParameter("memberPoint"));
 			
 			Member member = new Member();
@@ -26,13 +27,24 @@
 			member.setMemberAddr(memberAddr);
 			member.setMemberPoint(memberPoint);
 			
-			MemberInter memberinter = new MemberInter();
-			memberinter.setBookcodeNo(Integer.parseInt(inter[0]));
-			System.out.println(memberinter.getBookcodeNo()+ "ºÏÄÚµå³Ñ¹ö");
+			ArrayList<MemberInter> memberInterList = new ArrayList<MemberInter>();
 			
 			
+			int countForMemberInter = 0; 
+			if(bookCodeInter != null){
+				countForMemberInter = bookCodeInter.length;
+			}
+		
+			for(int i = 0; i < countForMemberInter; i++){
+				MemberInter memberInter = new MemberInter();
+				
+				memberInter.setBookcodeNo(Integer.parseInt(bookCodeInter[i]));
+			
+				memberInterList.add(memberInter);
+			}
+	
 			MemberService memberservice = new MemberService();
-			int checkId = memberservice.insertMember(member);
+			int checkId = memberservice.insertMember(member, memberInterList);
 			
 			if(checkId==0) {
 				response.sendRedirect(request.getContextPath()+"/member/insertMemberFail.jsp");

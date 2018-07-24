@@ -87,7 +87,7 @@ public class MemberDao {
 		}
 	}
 	//멤버 리스트
-	public Member memberList(String sessionId, Connection connection){
+	public Member memberMypage(String sessionId, Connection connection){
 		Member member = null;
 		String sql = "select * from member where member_id=?";
 		try {
@@ -229,6 +229,30 @@ public class MemberDao {
 		}
 	}
 	
+	public void insertMemberInter(Member member, ArrayList<MemberInter> memberinter, Connection connection) {
+		String sql = "select member_no from member where member_id=?";
+		String sql2 = "insert into memberinter(member_no, bookcode_no) value(?, ?)";
+		try {
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setString(1, member.getMemberId());
+
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				for(int i=0; i<memberinter.size(); i++) {
+					pstmt = connection.prepareStatement(sql2);
+					pstmt.setInt(1, rs.getInt("member_no"));
+					pstmt.setInt(2, memberinter.get(i).getBookcodeNo());
+					
+					pstmt.executeUpdate();
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
+		}
+	}
 	/*public Member selectMypage(int no) {
 		
 	}

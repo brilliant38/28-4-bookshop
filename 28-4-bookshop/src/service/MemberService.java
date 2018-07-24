@@ -24,12 +24,12 @@ public class MemberService {
 	public void insertReview(Review review) {				
 		
 	}*/			
-	public Member memberList(String id){
+	public Member memberMypage(String id){
 		Member member = null;
 		try {
 			connection.setAutoCommit(false);
 			MemberDao memberdao = new MemberDao();
-			member = memberdao.memberList(id, connection);
+			member = memberdao.memberMypage(id, connection);
 			connection.commit();
 		} catch (Exception e) { 
 			e.printStackTrace();
@@ -43,12 +43,14 @@ public class MemberService {
 		}
 		return member;			
 	}							
-	public int insertMember(Member member) {
+	public int insertMember(Member member, ArrayList<MemberInter> memberinter) {
 		int checkId = 0;
 		try {
 			connection.setAutoCommit(false);
 			MemberDao memberdao = new MemberDao();
 			checkId = memberdao.insertMember(member, connection);
+			memberdao.insertMemberInter(member, memberinter, connection);
+			
 			connection.commit();
 		} catch (Exception e) { 
 			e.printStackTrace();
