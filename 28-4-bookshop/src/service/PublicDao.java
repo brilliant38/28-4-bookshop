@@ -61,6 +61,7 @@ public class PublicDao {
 	public ArrayList<BookInfo> bookList(int currentPage, int pagePerRow, String word, String sel){
 		
 		ArrayList<BookInfo> bookList = new ArrayList<BookInfo>();
+		System.out.println(bookList + "<---BookInfo");
 		
 		Connection conn = null; //드라이버 로딩을 하기 위하여 만들어준 객체참조변수
 		PreparedStatement pstmt = null; 
@@ -70,6 +71,7 @@ public class PublicDao {
 		
 		try {
 			conn = DriverUtil.driverDBcon();
+			System.out.println(conn + " <---연결 드라이버");
 			
 			int startRow = (currentPage - 1) * pagePerRow; //첫 인덱스
 			int row = 0; //테이블의 전체 행의 수
@@ -94,6 +96,7 @@ public class PublicDao {
 				pstmt.setInt(3, pagePerRow);
 			}
 			resultSet2 = pstmt2.executeQuery();
+			System.out.println(resultSet2 + " <---페이징");
 			
 			if(resultSet2.next()) {
 				row = resultSet2.getInt("count(book_no)"); //테이블의 전체 행의 수 구하기
@@ -106,9 +109,11 @@ public class PublicDao {
 			}
 			
 			resultSet = pstmt.executeQuery();
+			System.out.println(resultSet + " <---리스트");
 			
 			while(resultSet.next()) {
 				Book book = new Book();
+				System.out.println(book + "<--- Book");
 				book.setBookNo(resultSet.getInt("book_no"));
 				book.setBookCodeNo(resultSet.getInt("bookcode_no"));
 				book.setPublisherNo(resultSet.getInt("publisher_no"));
@@ -119,6 +124,7 @@ public class PublicDao {
 				book.setBookAmount(resultSet.getInt("book_amount"));
 				book.setBookOut(resultSet.getString("book_out"));
 				book.setBookDate(resultSet.getString("book_date"));
+				System.out.println(resultSet.getInt("book_no") + " <---도서번호");
 				book.setLastPage(lastPage);
 				
 				BookInfo bookInfo = new  BookInfo();
@@ -145,8 +151,50 @@ public class PublicDao {
 		}
 		return bookList;
 	}
-	// 도서 구매 이력 리스트
+	// 도서 구매 이력 리스트, 페이징
+	public ArrayList<Orders> ordersList(){
+		ArrayList<Orders> ordersList = new ArrayList<Orders>();
+		System.out.println(ordersList + " 주문 리스트");
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+		
+		try {
+			conn = DriverUtil.driverDBcon();
+			System.out.println(conn + " <---연결 드라이버");
+			
+			pstmt = conn.prepareStatement("select book_no, member_no, orders_amount, orders_price, orders_date, orders_addr, orders_state from orders");
+			// 첫 컬럼 orders_no 를 제외한  나머지 컬럼들을 orders_no를 조회하여 내림차순으로 나열
 
+			resultSet = pstmt.executeQuery();	// orders 테이블 조회
+			System.out.println(resultSet + " <---리스트");
+			
+			while(resultSet.next()) {
+				Orders orders = new Orders();
+				System.out.println(orders + " <---Orders");
+				orders.setBookNo(resultSet.getInt("book_no"));
+				System.out.println(orders.getBookNo() + " <--도서 번호");
+				orders.setMemberNo(resultSet.getInt("member_no"));
+				orders.setOrdersAmount(resultSet.getInt("order_amount"));
+				orders.setOrdersPrice(resultSet.getInt("orders_price"));
+				orders.setOrdersDate(resultSet.getString("orders_date"));
+				orders.setOrdersAddr(resultSet.getString("orders_addr"));
+				orders.setOrdersState(resultSet.getString("orders_state"));
+				System.out.println(resultSet.getString("orders_addr")+ " <--주소");
+				System.out.println(orders.getOrdersState() + " <--배송상태");
+				
+				ordersList.add(orders);
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			if (resultSet != null) try { resultSet.close(); } catch(SQLException e) {} //resultSet의 값이 null이 아닐 경우 resultSet를 종료시켜줍니다.
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {} //statement의 값이 null이 아닐 경우 statement를 종료시켜줍니다.
+			if (conn != null) try { conn.close(); } catch(SQLException e) {} //connection의 값이 null이 아닐 경우 connection를 종료시켜줍니다.
+		}
+		return ordersList;
+	}
 	// QnA 리스트
 
 	//	도서 상품 리뷰 리스트
