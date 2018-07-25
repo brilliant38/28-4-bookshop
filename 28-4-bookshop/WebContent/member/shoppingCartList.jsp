@@ -14,7 +14,6 @@
 		<table border="1">
 			<tr>
 				<th>책 번호</th>
-				<th>회원 번호</th>
 				<th>수량</th>
 				<th>가격</th>
 				<th>쇼핑카트에 담은 날짜</th>
@@ -46,8 +45,7 @@
 						sum += shoppingcartPrice;
 			%>
 						<tr>
-							<td><%= shoppingCart.getShoppingcartNo() %></td>
-							<td><%= memberNo %></td>
+							<td><%= bookNo %></td>
 							<td>
 								<div>
 									<form action="<%= request.getContextPath() %>/member/updateShoppingCartAmount.jsp?shoppingcartNo=<%= shoppingcartNo %>&bookNo=<%= bookNo%>" method="post">

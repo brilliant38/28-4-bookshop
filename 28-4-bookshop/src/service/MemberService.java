@@ -1,4 +1,4 @@
-/*2018-07-23 이응빈*/
+/*2018-07-23 이응빈 and 박원우*/
 package service;
 
 import java.sql.Connection;
@@ -97,7 +97,7 @@ public class MemberService {
 		}
 		return member;
 	}
-	//회원탈퇴
+	//회원탈퇴 (작성자 : 이응빈)
 	public void deleteMember(String sessionId) {				
 		try {
 			connection.setAutoCommit(false);
@@ -115,13 +115,17 @@ public class MemberService {
 			if (connection != null) try { connection.close(); } catch(Exception e) {}	
 		}
 	}
-	//쇼핑카트 담기
+	//쇼핑카트 담기 (작성자 : 이응빈)
 	public int insertShoppingCart(int bookNo, String sessionId) {
+		Member member = null;
+		Book book = null;
 		int login = 0;
 		try {
 			connection.setAutoCommit(false);
 			MemberDao memberdao = new MemberDao();
-			login = memberdao.insertShoppingCart(bookNo, sessionId, connection);
+			member = memberdao.selectMemberNo(sessionId, connection);
+			book = memberdao.selectBookPrice(bookNo, connection);
+			login = memberdao.insertShoppingCart(bookNo, book, member, connection);
 			connection.commit();
 		} catch (Exception e) { 
 			e.printStackTrace();
@@ -135,13 +139,15 @@ public class MemberService {
 		}
 		return login;
 	}
-	//쇼핑카트 리스트
+	//쇼핑카트 리스트 (작성자 : 이응빈)
 	public ArrayList<ShoppingCart> selectShoppingCart(String sessionId) {
-		ArrayList<ShoppingCart> list = new ArrayList<ShoppingCart>();
+		Member member = null;
+		ArrayList<ShoppingCart> list = null;
 		try {
 			connection.setAutoCommit(false);
 			MemberDao memberdao = new MemberDao();
-			list = memberdao.selectShoppingCart(sessionId, connection);
+			member = memberdao.selectMemberNo(sessionId, connection);
+			list = memberdao.selectShoppingCart(member, connection);
 			connection.commit();
 		} catch (Exception e) { 
 			e.printStackTrace();
@@ -155,12 +161,14 @@ public class MemberService {
 		}
 		return list;
 	}
-	//쇼핑카트 수량 수정
-	public void updateShoppingCartAmount(int shoppingcartNo, int shoppingcartAmount, int bookNo) {				
+	//쇼핑카트 수량 수정 (작성자 : 이응빈)
+	public void updateShoppingCartAmount(int shoppingcartNo, int shoppingcartAmount, int bookNo) {
+		Book book = null;
 		try {
 			connection.setAutoCommit(false);
 			MemberDao memberdao = new MemberDao();
-			memberdao.updateShoppingCartAmount(shoppingcartNo, shoppingcartAmount, bookNo, connection);
+			book = memberdao.selectBookPrice(bookNo, connection);
+			memberdao.updateShoppingCartAmount(shoppingcartNo, shoppingcartAmount, book, connection);
 			connection.commit();
 		} catch (Exception e) { 
 			e.printStackTrace();
@@ -173,7 +181,7 @@ public class MemberService {
 			if (connection != null) try { connection.close(); } catch(Exception e) {}	
 		}
 	}
-	//쇼핑카트 목록 삭제
+	//쇼핑카트 목록 삭제 (작성자 : 이응빈)
 	public void deleteShoppingCart(int shoppingcartNo) {
 		try {
 			connection.setAutoCommit(false);
@@ -191,12 +199,16 @@ public class MemberService {
 			if (connection != null) try { connection.close(); } catch(Exception e) {}	
 		}
 	}
-	//회원주문
+	//회원주문 (작성자 : 이응빈)
 	public void insertOrders(int memberNo){
+		Member member = null;
+		ArrayList<ShoppingCart> list = null;
 		try {
 			connection.setAutoCommit(false);
 			MemberDao memberdao = new MemberDao();
-			memberdao.insertOrders(memberNo, connection);
+			member = memberdao.selectMemberAddr(memberNo, connection);
+			list = memberdao.selectShoppingCart(memberNo, connection);
+			memberdao.insertOrders(member, list, connection);
 			connection.commit();
 		} catch (Exception e) { 
 			e.printStackTrace();
