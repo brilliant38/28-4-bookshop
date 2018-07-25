@@ -8,13 +8,13 @@
 	<body>
 		<h1>관리자 메인화면</h1>
 		<div>
-			<a href ="<%=request.getContextPath() %>/logout.jsp" >로그아웃</a>
+			<a href ="<%=request.getContextPath() %>/admin/logout.jsp" >로그아웃</a>
 		</div>
 		<br>
 		<div>
 			<a href ="<%=request.getContextPath() %>/admin/memberList.jsp" >회원목록</a>
 			<a href ="<%=request.getContextPath() %>/ordersList.jsp" >주문목록</a>
-			<a href ="<%=request.getContextPath() %>/bookList.jsp" >도서목록</a>
+			<a href ="<%=request.getContextPath() %>/admin/bookAdminList.jsp" >도서목록</a>
 			<a href ="<%=request.getContextPath() %>/admin/insertBookForm.jsp" >판매도서추가</a>
 		</div>
 	</body>

@@ -58,7 +58,8 @@
 							<option value="10">10.프린피아</option>
 							<option value="11">11.좋은책신사고</option>
 							<option value="12">12.엔이능률</option>
-						</select></td>
+						</select>
+					</td>
 				</tr>
 				<tr>
 					<th>도서명</th>

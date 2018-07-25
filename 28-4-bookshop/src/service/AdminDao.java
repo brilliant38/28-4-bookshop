@@ -9,6 +9,194 @@ import java.util.ArrayList;
 
 public class AdminDao {
 	
+	//입력된 id, pw를 체크해서 login 검사를 처리하는 메소드
+	
+	public int loginMember(Admin admin, Connection connection) {
+		int login = 0;
+		
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		String loginMemberSql = "SELECT count(*) FROM admin WHERE admin_id =? AND admin_pw=?";
+		
+		try {
+			preparedStatement = connection.prepareStatement(loginMemberSql);
+			preparedStatement.setString(1, admin.getAdminID());
+			preparedStatement.setString(2, admin.getAdminPw());
+			
+			resultSet = preparedStatement.executeQuery();
+			
+			if(resultSet.next()) {
+				login = resultSet.getInt(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			
+		}
+		
+		return login;
+	}
+	
+	//review 테이블에서 모든 행을 조회해서 리턴 시키는 메소드
+	public ArrayList<BookReview> reviewList(Connection connection){
+		ArrayList<BookReview> arrayList = new ArrayList<BookReview>();
+		
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		String reviewListSql = "SELECT bookreview_no, book_no, member_no, bookreview_content FROM bookreview";
+		
+		try {
+			preparedStatement = connection.prepareStatement(reviewListSql); 
+			
+			resultSet = preparedStatement.executeQuery();
+			
+			
+			while(resultSet.next()) {
+				BookReview bookReview = new BookReview();
+				bookReview.setBookReviewNo(resultSet.getInt(1));
+				bookReview.setBookNo(resultSet.getInt(2));
+				bookReview.setMemberNo(resultSet.getInt(3));
+				bookReview.setBookReviewContent(resultSet.getString(4));
+				
+				arrayList.add(bookReview);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {	
+			try {
+				resultSet.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			try {
+				preparedStatement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return arrayList;
+	}
+	
+	//bookNo를 입력해서 bookName을 리턴 시키는 메소드
+	public String selectbookName(int bookNo,Connection connection) {
+		String bookName = null;
+		
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		String selectbookNameSql = "SELECT book_name FROM book WHERE book_no=?";
+		
+		try {
+			preparedStatement = connection.prepareStatement(selectbookNameSql); 
+			preparedStatement.setInt(1, bookNo);
+			
+			resultSet = preparedStatement.executeQuery();
+			
+			
+			if(resultSet.next()) {
+				bookName = resultSet.getString(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {	
+			try {
+				resultSet.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			try {
+				preparedStatement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return bookName;
+	}
+	
+	//memberNo를 입력해서 memberId를 리턴 시키는 메소드
+		public String selectMemberId(int memberNo,Connection connection) {
+			String memberId = null;
+			
+			PreparedStatement preparedStatement = null;
+			ResultSet resultSet = null;
+			String selectMemberNoSql = "SELECT member_id FROM member WHERE member_no=?";
+			
+			try {
+				preparedStatement = connection.prepareStatement(selectMemberNoSql); 
+				preparedStatement.setInt(1, memberNo);
+				
+				resultSet = preparedStatement.executeQuery();
+				
+				
+				if(resultSet.next()) {
+					memberId = resultSet.getString(1);
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {	
+				try {
+					resultSet.close();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			
+			return memberId;
+		}
+	
+	//memberId를 입력해서 memberNo를 리턴 시키는 메소드
+	public int selectMemberNo(String memberId,Connection connection) {
+		int memberNo = 0;
+		
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		String selectMemberNoSql = "SELECT member_no FROM member WHERE member_id=?";
+		
+		try {
+			preparedStatement = connection.prepareStatement(selectMemberNoSql); 
+			preparedStatement.setString(1, memberId);
+			
+			resultSet = preparedStatement.executeQuery();
+			
+			
+			if(resultSet.next()) {
+				memberNo = resultSet.getInt(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {	
+			try {
+				resultSet.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			try {
+				preparedStatement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return memberNo;
+	}
+	
 	//Review 테이블에 1행의 책 리뷰를 입력하는 메소드.
 	public void insertReview(BookReview bookReview,Connection connection) {
 		PreparedStatement preparedStatement = null;

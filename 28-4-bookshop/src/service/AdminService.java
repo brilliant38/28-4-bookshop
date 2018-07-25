@@ -8,6 +8,195 @@ import java.util.ArrayList;
 public class AdminService {
 	Connection connection = DriverUtil.driverDBcon();
 	
+	
+	//로그인 체크를 하는 loginMember 메소드를 호출하는 서비스 메소드
+	
+	public int loginAdminService(Admin admin) {
+		int login = 0;
+		
+		try {//Autocommit 정지 메소드
+			connection.setAutoCommit(false);
+			
+			AdminDao adminDao = new AdminDao();
+			
+			login = adminDao.loginMember(admin,connection);
+			
+			//수동 commit 처리 메소드
+			connection.commit();
+			
+		} catch (SQLException e) {
+			try {
+				//예외발생시 rollback 메소드
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return login;
+	}
+	
+	//reviewList를 호출하여 review 목록을 리턴하는 서비스 메소드
+	public ArrayList<Review> reviewListService(){
+		System.out.println(" 01 reviewListService <- 확인");
+		ArrayList<Review> arraylist = null;
+		ArrayList<BookReview> bookReview = null;
+		
+		try {
+			//Autocommit 정지 메소드
+			connection.setAutoCommit(false);
+			
+			AdminDao adminDao = new AdminDao();
+			
+			arraylist = new ArrayList<Review>();
+			bookReview = adminDao.reviewList(connection);
+			
+			for(int i=0; i<bookReview.size(); i++) {
+				Book book = new Book();
+				book.setBookName(adminDao.selectbookName(bookReview.get(i).getBookNo(),connection));
+				
+				Member member = new Member();
+				member.setMemberId(adminDao.selectMemberId(bookReview.get(i).getMemberNo(), connection));
+				
+				System.out.println(bookReview.get(i).getMemberNo() + " : 회원 번호 출력");
+				System.out.println(member.getMemberId() + " : 회원 아이디 출력");
+				
+				Review review = new Review();
+				review.setBook(book);
+				review.setBookReview(bookReview);
+				review.setMember(member);
+				
+				arraylist.add(review);
+			}
+			
+			//수동 commit 처리 메소드
+			connection.commit();
+			
+		} catch (SQLException e) {
+			try {
+				//예외발생시 rollback 메소드
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return arraylist;
+	}
+	
+	//bookNo를 입력해서 bookName을 리턴 시키는 메소드
+	public String selectbookNameService(int bookNo) {
+		System.out.println(" 01 selectMemberNo <- 확인");
+		String bookName = null;
+		
+		try {
+			//Autocommit 정지 메소드
+			connection.setAutoCommit(false);
+			
+			AdminDao adminDao = new AdminDao();
+			bookName = adminDao.selectbookName(bookNo, connection);
+			
+			//수동 commit 처리 메소드
+			connection.commit();
+			
+		} catch (SQLException e) {
+			try {
+				//예외발생시 rollback 메소드
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return bookName;
+	}
+	
+	//memberNo로 selectMemberId 메소드를 호출하는 서비스 메소드
+		public String selectMemberIdService(int memberNo) {
+			System.out.println(" 01 selectMemberNo <- 확인");
+			String memberId = null;
+			
+			try {
+				//Autocommit 정지 메소드
+				connection.setAutoCommit(false);
+				
+				AdminDao adminDao = new AdminDao();
+				memberId = adminDao.selectMemberId(memberNo, connection);
+				
+				//수동 commit 처리 메소드
+				connection.commit();
+				
+			} catch (SQLException e) {
+				try {
+					//예외발생시 rollback 메소드
+					connection.rollback();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				e.printStackTrace();
+			} finally {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			return memberId;
+		}
+	
+	//memberID로 selectMemberNo 메소드를 호출하는 서비스 메소드
+	public int selectMemberNoService(String memberId) {
+		System.out.println(" 01 selectMemberNo <- 확인");
+		int memberNo = 0;
+		
+		try {
+			//Autocommit 정지 메소드
+			connection.setAutoCommit(false);
+			
+			AdminDao adminDao = new AdminDao();
+			memberNo = adminDao.selectMemberNo(memberId, connection);
+			
+			//수동 commit 처리 메소드
+			connection.commit();
+			
+		} catch (SQLException e) {
+			try {
+				//예외발생시 rollback 메소드
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return memberNo;
+	}
+	
 	//insertReview 메소드를 bookReview 객체 주소값을 입력하여 호출
 	public void insertReviewService(BookReview bookReview) {
 		System.out.println(" 01 insertReview <- 확인");

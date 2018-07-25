@@ -1,12 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<!DOCTYPE html>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
-</head>
-<body>
-
-</body>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+		<title>Index</title>
+	</head>
+	<body>
+		<h1>인터넷도서판매점</h1>
+		<table border="1">
+			<tr>
+				<td><a href="<%=request.getContextPath()%>/member/loginForm.jsp">일반사용자용 로그인</a></td>
+				<td><a href="<%=request.getContextPath()%>/admin/loginForm.jsp">관리자용 로그인</a></td>
+			</tr>
+		</table>
+	</body>
 </html>
