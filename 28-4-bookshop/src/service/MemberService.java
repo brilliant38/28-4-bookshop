@@ -11,10 +11,7 @@ public class MemberService {
 	public void updateShoppingCart(int shoppingCartNo) {
 		
 	}								
-					
-	public ArrayList<BookInfo> insertOrders(Bookinfo bookinfo){				
-		
-	}
+	
 	public ArrayList<BookInfo>insertOrdersList(Bookinfo bookinfo){				
 		
 	}				
@@ -182,6 +179,24 @@ public class MemberService {
 			connection.setAutoCommit(false);
 			MemberDao memberdao = new MemberDao();
 			memberdao.deleteShoppingCart(shoppingcartNo, connection);
+			connection.commit();
+		} catch (Exception e) { 
+			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			if (connection != null) try { connection.close(); } catch(Exception e) {}	
+		}
+	}
+	//회원주문
+	public void insertOrders(int memberNo){
+		try {
+			connection.setAutoCommit(false);
+			MemberDao memberdao = new MemberDao();
+			memberdao.insertOrders(memberNo, connection);
 			connection.commit();
 		} catch (Exception e) { 
 			e.printStackTrace();

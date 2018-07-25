@@ -265,16 +265,46 @@ public class MemberDao {
 			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
 		}
 	}
+	//회원 주문
+	public void insertOrders(int memberNo, Connection connection){
+		String sql1 = "insert into orders(book_no, member_no, orders_amount, orders_price, orders_addr, orders_state, orders_date) values(?, ?, ?, ?, ?, ?, now())";
+		String sql2 = "select * from shoppingcart where member_no=?";
+		String sql3 = "select * from member where member_no=?";
+		try {
+			pstmt = connection.prepareStatement(sql2);
+			pstmt.setInt(1, memberNo);
+			
+			rs = pstmt.executeQuery();
+			
+			pstmt = connection.prepareStatement(sql3);
+			pstmt.setInt(1, memberNo);
+			
+			rs2 = pstmt.executeQuery();
+			rs2.next();
+				
+			while(rs.next()) {
+				pstmt = connection.prepareStatement(sql1);
+				pstmt.setInt(1, rs.getInt("book_no"));
+				pstmt.setInt(2, rs.getInt("member_no"));
+				pstmt.setInt(3, rs.getInt("shoppingcart_amount"));
+				pstmt.setInt(4, rs.getInt("shoppingcart_price"));
+				pstmt.setString(5, rs2.getString("member_addr"));
+				pstmt.setString(6, "배송 처리 중");
+				
+				pstmt.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			if (rs != null) try { rs.close(); } catch(SQLException e) {}
+			if (rs2 != null) try { rs2.close(); } catch(SQLException e) {}
+			if (pstmt != null) try { pstmt.close(); } catch(SQLException e) {}
+		}
+	}
 	/*public Member selectMypage(int no) {
 		
 	}
-				
-
-	
 	public void updateShoppingCart(int shoppingCartNo) {
-		
-	}
-	public ArrayList<BookInfo> insertOrders(Bookinfo bookinfo){
 		
 	}
 	public ArrayList<BookInfo>insertOrdersList(Bookinfo bookinfo){
