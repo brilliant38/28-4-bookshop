@@ -12,11 +12,10 @@
 		<body>
 		<%
 			
-		
-		PublicService publicService = new PublicService();
-		
-		BookInfo bookInfo = new BookInfo();
-		Book book = new Book();
+		int bookno = Integer.parseInt(request.getParameter("no")); 
+		BookDetailService bookdetailservice = new BookDetailService();
+		BookInfo bookinfo = bookdetailservice.selectBookDetail(bookno);
+		System.out.println(bookinfo.getBook() + " : 북 주소 체크");
 		
 		
 
@@ -46,24 +45,24 @@
 			</tr>
 			<tr>
 			
-			<td><%=bookInfo.getBook().getBookNo()%></td>
-			<td><%=bookInfo.getBook().getBookCodeNo()%></td>
-			<td><%=bookInfo.getBook().getPublisherNo()%></td>
-			<td><%=bookInfo.getPublisher().getPublisherName()%></td>
-			<td><%=bookInfo.getPublisher().getPublisherWebsite()%></td>
-			<td><%=bookInfo.getBookCode().getBookCodeName()%></td>
-			<td><%=bookInfo.getBook().getBookName()%></td>
-			<td><%=bookInfo.getBookIntro().getBookIntroContent()%></td>
-			<td><%=bookInfo.getBook().getBookAuthor()%></td>
-			<td><%=bookInfo.getBookIntro().getBookIntroWriter()%></td>
-			<td><%=bookInfo.getBook().getBookPrice()%></td>
-			<td><%=bookInfo.getBook().getBookPoint()%></td>
-			<td><%=bookInfo.getBook().getBookAmount()%></td>
-			<td><%=bookInfo.getBook().getBookOut()%></td>
-			<td><%=bookInfo.getBook().getBookDate()%></td>
+			<td><%=bookinfo.getBook().getBookNo()%></td>
+			<td><%=bookinfo.getBook().getBookCodeNo()%></td>
+			<td><%=bookinfo.getBook().getPublisherNo()%></td>
+			<td><%=bookinfo.getPublisher().getPublisherName()%></td>
+			<td><%=bookinfo.getPublisher().getPublisherWebsite()%></td>
+			<td><%=bookinfo.getBookCode().getBookCodeName()%></td>
+			<td><%=bookinfo.getBook().getBookName()%></td>
+			<td><%=bookinfo.getBookIntro().getBookIntroContent()%></td>
+			<td><%=bookinfo.getBook().getBookAuthor()%></td>
+			<td><%=bookinfo.getBookIntro().getBookIntroWriter()%></td>
+			<td><%=bookinfo.getBook().getBookPrice()%></td>
+			<td><%=bookinfo.getBook().getBookPoint()%></td>
+			<td><%=bookinfo.getBook().getBookAmount()%></td>
+			<td><%=bookinfo.getBook().getBookOut()%></td>
+			<td><%=bookinfo.getBook().getBookDate()%></td>
 			
-			<td><a href="<%= request.getContextPath() %>/admin/updateBookForm.jsp?bookNo=<%=bookInfo.getBook().getBookNo()%>">수정</a></td>
-			<td><a href="<%= request.getContextPath() %>/admin/deleteBookAction.jsp?bookNo=<%=bookInfo.getBook().getBookNo()%>">삭제</a></td>
+			<td><a href="<%= request.getContextPath() %>/admin/updateBookForm.jsp?bookNo=<%=bookinfo.getBook().getBookNo()%>">수정</a></td>
+			<td><a href="<%= request.getContextPath() %>/admin/deleteBookAction.jsp?bookNo=<%=bookinfo.getBook().getBookNo()%>">삭제</a></td>
 			</tr>
 		</table>
 		</form>

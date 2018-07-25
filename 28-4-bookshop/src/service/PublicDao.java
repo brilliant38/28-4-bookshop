@@ -2,18 +2,18 @@
 package service;
 import java.util.*;
 import java.sql.*;
-import service.BookInfo;
+import service.*;
 
 // 공용
 public class PublicDao {
-	
+	Connection connection = DriverUtil.driverDBcon();
 	// 로그인 회원
 	public String loginMember(Connection Connection, Member member) {
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
 		String result = null;
 		try {
-			pstmt = Connection.prepareStatement("select * from member where member_id=? and member_pw=?");
+			pstmt = connection.prepareStatement("select * from member where member_id=? and member_pw=?");
 			pstmt.setString(1, member.getMemberId()); 
 			pstmt.setString(2, member.getMemberPw());
 			resultSet = pstmt.executeQuery(); 
@@ -38,7 +38,7 @@ public class PublicDao {
 		ResultSet resultSet = null;
 		String result = null;
 		try {
-			pstmt = Connection.prepareStatement("select * from admin where admin_id=? and admin_pw=?");
+			pstmt = connection.prepareStatement("select * from admin where admin_id=? and admin_pw=?");
 			pstmt.setString(1, admin.getAdminID()); 
 			pstmt.setString(2, admin.getAdminPw());
 			resultSet = pstmt.executeQuery(); 
@@ -195,8 +195,167 @@ public class PublicDao {
 		}
 		return ordersList;
 	}
+	
+	//도서 상세 정보 리스트 
+	public Book selectbookDetail(int bookno ,Connection conn) {
+		
+		   PreparedStatement pstmt = null;
+		   ResultSet resultSet = null;
+		   Book book = null;	
+			   
+			   try {
+					
+					pstmt = conn.prepareStatement("SELECT book_No , bookCode_No, publisher_No ,  book_Name , book_Author,  book_Price, book_Point , book_AMount , book_Out ,book_Date FROM book WHERE book_no=?");
+					resultSet = pstmt.executeQuery();
+					
+					
+					if(resultSet.next()) {
+						   book = new Book();
+					
+						   
+						   book.setBookNo(resultSet.getInt(1));
+						   book.setBookCodeNo(resultSet.getInt(2));
+						   book.setPublisherNo(resultSet.getInt(3));
+						   book.setBookAuthor(resultSet.getString(8));
+						   book.setBookPrice(resultSet.getInt(10));
+						   book.setBookPoint(resultSet.getInt(11));
+						   book.setBookAmount(resultSet.getInt(12));
+						   book.setBookOut(resultSet.getString(13));
+						   book.setBookDate(resultSet.getString(14));
+						   book.setBookNo(resultSet.getInt(15));
+						  					  			   
+					}
+					
+			   } catch (SQLException e) {
+				   System.out.println("예외발생");
+				   e.printStackTrace();
+			   }finally {
+				   if(resultSet!=null) try{ resultSet.close(); } catch (SQLException e) {}
+					if(pstmt!=null) try{ pstmt.close(); } catch (SQLException e) {}	// 객체 종료
+					
+			   }
+			   
+				
+				
+		return book;
+		}
+	//도서 상세리스트
+	public BookCode selectbookCode(int bookno ,Connection conn) {
+		
+		   PreparedStatement pstmt = null;
+		   ResultSet resultSet = null;
+		   BookCode bookcode = null;	
+			   
+			   try {
+					
+					pstmt = conn.prepareStatement("SELECT bookcode_name FROM bookcode WHERE bookcode_no=?");
+					pstmt.setInt(1, bookno);
+					resultSet = pstmt.executeQuery();
+					
+					
+					
+					if(resultSet.next()) {
+						
+						   BookCode bookCode = new BookCode(); 
+						
+						   
+						  
+						
+						   bookCode.setBookCodeName(resultSet.getString(6));
+						
+						  					  			   
+					}
+					
+			   } catch (Exception e) {
+				   System.out.println("예외발생");
+				   e.printStackTrace();
+			   }finally {
+				   if(resultSet!=null) try{ resultSet.close(); } catch (SQLException e) {}
+					if(pstmt!=null) try{ pstmt.close(); } catch (SQLException e) {}	// 객체 종료
+					
+			   }
+			   
+				
+				
+		return  bookcode;
+		}
+	
+	public Publisher selectpublisher(int bookno ,Connection conn) {
+		
+		   PreparedStatement pstmt = null;
+		   ResultSet resultSet = null;
+		   Publisher publisher = null;
+			
+			   
+			   try {
+					
+					pstmt = conn.prepareStatement("SELECT  publisher_Name,publisher_Website FROM publisher WHERE publisher_no=?");
+					resultSet = pstmt.executeQuery();
+					
+					
+					if(resultSet.next()) {
+						 
+						   publisher = new Publisher(); 
+						
+						   
+						   
+						   publisher.setPublisherName(resultSet.getString(6));
+						   publisher.setPublisherWebsite(resultSet.getString(6));
+						  
+						  					  			   
+					}
+					
+			   } catch (SQLException e) {
+				   System.out.println("예외발생");
+				   e.printStackTrace();
+			   }finally {
+				   if(resultSet!=null) try{ resultSet.close(); } catch (SQLException e) {}
+					if(pstmt!=null) try{ pstmt.close(); } catch (SQLException e) {}	// 객체 종료
+					
+			   }
+			   
+				
+				
+		return publisher;
+		}
+	
+	public BookIntro selectbookintro(int bookno ,Connection conn) {
+		
+		   PreparedStatement pstmt = null;
+		   ResultSet resultSet = null;
+		   BookIntro bookintro = null;	
+			   
+			   try {
+					
+					pstmt = conn.prepareStatement("SELECT bookintro_Content, bookintro_Writer FROM bookintro WHERE book_no=?");
+					resultSet = pstmt.executeQuery();
+					
+					
+					if(resultSet.next()) {
+						   bookintro = new BookIntro();
+					
+						   
+						   bookintro.setBookIntroContent(resultSet.getString(1));
+						   bookintro.setBookIntroWriter(resultSet.getString(2));
+					
+						  					  			   
+					}
+					
+			   } catch (Exception e) {
+				   System.out.println("예외발생");
+				   e.printStackTrace();
+			   }finally {
+				   if(resultSet!=null) try{ resultSet.close(); } catch (SQLException e) {}
+					if(pstmt!=null) try{ pstmt.close(); } catch (SQLException e) {}	// 객체 종료
+					
+			   }
+			   
+				
+				
+		return bookintro;
+		}
 	// QnA 리스트
 
 	//	도서 상품 리뷰 리스트
-
+		
 }
