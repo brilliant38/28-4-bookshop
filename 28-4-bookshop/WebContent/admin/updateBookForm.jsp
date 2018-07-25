@@ -18,7 +18,7 @@
 				<tr>
 					<th>Ã¥ ¹øÈ£</th>
 					<td>
-						<input type="text" name="bookNo" value="<%=Integer.parseInt(request.getParameter("bookNo"))%>">
+						<input type="text" name="bookNo" value="<%=Integer.parseInt(request.getParameter("bookNo"))%>" readonly>
 					</td>
 				<tr>
 				<tr>

@@ -22,7 +22,6 @@
 				<td>남은 수량</td>
 				<td>절판 여부</td>
 				<td>도서 등록 일자</td>
-				<td>장바구니 담기</td>
 				<td>수정</td>
 				<td>삭제</td>
 			</tr>
@@ -52,7 +51,6 @@
 				bookInfo.setBook(book);
 				ArrayList<BookInfo> bookList = publicService.bookList(currentPage, 5, bookInfo, sel);
 				
-			
 				for(int i=0; i<bookList.size(); i++) {
 					bookInfo = bookList.get(i);
 			%>
@@ -67,7 +65,6 @@
 					<td><%=bookInfo.getBook().getBookAmount()%></td>
 					<td><%=bookInfo.getBook().getBookOut()%></td>
 					<td><%=bookInfo.getBook().getBookDate()%></td>
-					<td><a href="<%= request.getContextPath() %>/admin/updateBookForm.jsp?bookNo=<%=bookInfo.getBook().getBookNo()%>">장바구니 담기</a></td>
 					<td><a href="<%= request.getContextPath() %>/admin/updateBookForm.jsp?bookNo=<%=bookInfo.getBook().getBookNo()%>">수정</a></td>
 					<td><a href="<%= request.getContextPath() %>/admin/deleteBookAction.jsp?bookNo=<%=bookInfo.getBook().getBookNo()%>">삭제</a></td>
 				</tr>

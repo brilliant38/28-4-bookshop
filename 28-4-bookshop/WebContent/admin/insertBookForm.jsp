@@ -87,7 +87,6 @@
 					<th>도서절판</th>
 					<td><select name="bookOut">
 							<option>판매중</option>
-							<option>절판</option>
 						</select>
 					</td>
 				</tr>
